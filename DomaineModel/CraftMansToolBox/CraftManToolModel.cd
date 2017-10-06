@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DomaineModel.CraftMansToolBox.Håndværker">
+    <Position X="1" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAgAAAAAAAEAAAAAAAAAAAAAAAAAAAAwAI=</HashCode>
+      <FileName>CraftMansToolBox\Håndværker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Ejes_af" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DomaineModel.CraftMansToolBox.Værktøj">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAQgYAAAAAAA=</HashCode>
+      <FileName>CraftMansToolBox\Værktøj.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DomaineModel.CraftMansToolBox.Værktøjskasse">
+    <Position X="4.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAgYAACAAiA=</HashCode>
+      <FileName>CraftMansToolBox\Værktøjskasse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Ligger_i" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,3 @@
+((Microsoft.Azure.Documents.Linq.DocumentQuery<E17StartDocumentDB.Program.Family>)familyQueryInSql).Expression
+Expression = {https://127.0.0.1:8081/dbs/FamilyDB/colls/FamilyCollection.AsSQL(value(Microsoft.Azure.Documents.SqlQuerySpec))}
+Expression = {https://127.0.0.1:8081/dbs/FamilyDB/colls/FamilyCollection.Where(f => (f.LastName == "Andersen"))}
