@@ -7,9 +7,9 @@ using DomaineModel.CraftMansToolBox;
 using Infrastructure.CraftManDBADONET;
 
 
-namespace UseApplication.TheCMTBContext
+namespace ApplicationLogic.TheCMTBContext
 {
-    class CMTBApp
+    public class CMTBApp
     {
         public void TheApp()
         {

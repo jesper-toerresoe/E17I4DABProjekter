@@ -3,11 +3,11 @@
   <Class Name="DomaineModel.CraftMansToolBox.Håndværker">
     <Position X="1" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAgAAAAAAAEAAAAAAAAAAAAAAAAAAAAwAI=</HashCode>
+      <HashCode>AAAAEEAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAwAI=</HashCode>
       <FileName>CraftMansToolBox\Håndværker.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Ejes_af" />
+      <Property Name="Ejer_Værktøjskasser" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DomaineModel.CraftMansToolBox.Værktøj">
@@ -20,11 +20,11 @@
   <Class Name="DomaineModel.CraftMansToolBox.Værktøjskasse">
     <Position X="4.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAgYAACAAiA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAEAAAAAAAAAQAgYAAAAAiA=</HashCode>
       <FileName>CraftMansToolBox\Værktøjskasse.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Ligger_i" />
+      <Property Name="Værktøj_i_kassen" />
     </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
