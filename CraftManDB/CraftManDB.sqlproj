@@ -69,5 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Script1.sql" />
+    <None Include="InsertDataToDB.sql" />
   </ItemGroup>
 </Project>
