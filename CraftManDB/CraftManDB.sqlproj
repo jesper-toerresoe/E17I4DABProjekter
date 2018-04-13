@@ -71,5 +71,6 @@
     <None Include="Script1.sql" />
     <None Include="InsertDataToDB.sql" />
     <None Include="ReadMe.txt" />
+    <None Include="Script2.sql" />
   </ItemGroup>
 </Project>
