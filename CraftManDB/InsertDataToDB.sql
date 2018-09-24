@@ -1,6 +1,6 @@
 ﻿SET IDENTITY_INSERT [dbo].[Håndværker] ON
-INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (245, N'2018-04-11', N'Hansen', N'Snedker', N'Peter')
-INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (366, N'2016-03-19', N'Sørensn', N'Smed', N'Søren')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (2511, N'2018-04-11', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (54377, N'2016-03-19', N'Sørensn', N'Smed', N'Søren')
 SET IDENTITY_INSERT [dbo].[Håndværker] OFF
 SET IDENTITY_INSERT [dbo].[Værktøjskasse] ON
 INSERT INTO [dbo].[Værktøjskasse] ([VKasseId], [Anskaffet], [Fabrikat], [Håndværker], [Model], [Serienummer], [Farve]) VALUES (5664, N'2018-04-11', N'Bosch', 245, N'xxf6', N'3475693', N'Grøn')
