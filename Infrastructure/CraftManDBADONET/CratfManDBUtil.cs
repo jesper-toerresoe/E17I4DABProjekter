@@ -1,10 +1,7 @@
-﻿using System;
+﻿using DomaineModel.CraftMansToolBox;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DomaineModel.CraftMansToolBox;
 
 
 namespace Infrastructure.CraftManDBADONET
@@ -28,15 +25,17 @@ namespace Infrastructure.CraftManDBADONET
         /// <summary>
         /// This a local utility method providing an opne ADO.NET SQL connection
         /// Examples of connection strings are given like below:
-        /// new SqlConnection("Data Source=(localdb)\\Projects;Initial Catalog=Opgave1;Integrated Security=True");
-        /// new SqlConnection("Data Source=(local);Initial Catalog=Northwind;Integrated Security=SSPI");
-        /// new SqlConnection("Data Source=webhotel10.iha.dk;Initial Catalog=E13I4DABH0Gr1;User ID=E13I4DABH0Gr1; Password=E13I4DABH0Gr1");
+        /// new SqlConnection(@"Data Source=(localdb)\\Projects;Initial Catalog=Opgave1;Integrated Security=True");
+        /// new SqlConnection(@"Data Source=(local);Initial Catalog=Northwind;Integrated Security=SSPI");
+        /// new SqlConnection(@"Data Source=webhotel10.iha.dk;Initial Catalog=E13I4DABH0Gr1;User ID=E13I4DABH0Gr1; Password=E13I4DABH0Gr1");
+        /// new SqlConnection(@"Data Source=(localdb)\ProjectsV13;User ID=Program;Password=Program123;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         /// </summary>
         private SqlConnection OpenConnection
         {
             get
             {
-                var con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=CraftManDB;Integrated Security=True");
+                //var con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=CraftManDB;Integrated Security=True");
+                var con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=CraftManDB;User ID=Program;Password=Program123;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 con.Open();
                 return con;
             }
@@ -268,7 +267,7 @@ namespace Infrastructure.CraftManDBADONET
                 if (rdr.Read())
                 {
                     //Værktøjskasse curvk = new Værktøjskasse();
-                    vk.VKID = (long)rdr["VærktøjsId"];
+                    vk.VKID = (int)rdr["VKasseID"];
                     vk.Anskaffet = (DateTime)rdr["Anskaffet"];
                     vk.Fabrikat = (string)rdr["Fabrikat"];
                     vk.Håndværker = (long)rdr["Håndværker"];
@@ -364,6 +363,84 @@ namespace Infrastructure.CraftManDBADONET
 
                 var id = (int)cmd.ExecuteNonQuery();
                 vt = null;
+            }
+        }
+
+        public void GetFullTreeHåndværkerDB(ref Håndværker fhv)
+        {
+            string getfulltreecraftman = @"SELECT  Håndværker.HåndværkerId, Håndværker.Ansættelsedato, Håndværker.Efternavn, Håndværker.Fagområde, Håndværker.Fornavn, Værktøjskasse.VKasseId, Værktøjskasse.Anskaffet, Værktøjskasse.Fabrikat, Værktøjskasse.Håndværker, 
+                Værktøjskasse.Model, Værktøjskasse.Serienummer, Værktøjskasse.Farve, Værktøj.VærktøjsId, Værktøj.Anskaffet AS VTAnskaffet, Værktøj.Fabrikat AS VTFabrikat, Værktøj.Model AS VTModel, Værktøj.Serienr, Værktøj.Type, 
+                Værktøj.Værktøjskasse
+                FROM      Håndværker INNER JOIN
+                Værktøjskasse ON Håndværker.HåndværkerId = Værktøjskasse.Håndværker INNER JOIN
+                Værktøj ON Værktøjskasse.VKasseId = Værktøj.Værktøjskasse
+                WHERE   (Håndværker.HåndværkerId = @HåndværkerId)";
+            using (var cmd = new SqlCommand(getfulltreecraftman, OpenConnection))
+            {
+                cmd.Parameters.AddWithValue("@HåndværkerId", fhv.HID);
+                SqlDataReader rdr = null;
+                rdr = cmd.ExecuteReader();
+                var cmcount = 0;
+                var tbcount = 0;
+                var toolcount = 0;
+                int hvid = 0;
+                int tbid = 0; //VærktøjskasseID
+                Håndværker hv = new Håndværker();
+                Værktøjskasse vk = null;
+                hv.Ejer_Værktøjskasser = new List<Værktøjskasse> { };
+                while (rdr.Read())
+                {
+                    int hid;
+                    hid = (int)rdr["HåndværkerId"];
+                    if (hvid != hid) //Hent root håndværker
+                    {
+                        cmcount++;
+                        hv.HID = hid;
+                        hvid = hv.HID;
+                        hv.Ansættelsedato = (DateTime)rdr["Ansættelsedato"];
+                        hv.Efternavn = (string)rdr["Efternavn"];
+                        if (!rdr.IsDBNull(3))
+                            hv.Fagområde = (string)rdr["Fagområde"];
+                        else hv.Fagområde = null;
+                        hv.Fornavn = (string)rdr["Fornavn"];
+                    }
+                    if (!rdr.IsDBNull(5)) //Her er en værktøjskasse index 0...->
+                    {
+                        tbcount++;
+                        int vtid;
+                        vtid = (int)rdr["VKasseID"];//Temp ID
+                        if (tbid != vtid) //Vi har en ny vtkasse!
+                        {
+                            vk = new Værktøjskasse
+                            {
+                                Værktøj_i_kassen = new List<Værktøj> { },
+                                VKID = vtid
+                            };
+                            hv.Ejer_Værktøjskasser.Add(vk);
+                        }
+                        tbid = vk.VKID;
+                        vk.Anskaffet = (DateTime)rdr["Anskaffet"];
+                        vk.Fabrikat = (string)rdr["Fabrikat"];
+                        vk.Håndværker = (int)rdr["Håndværker"];
+                        vk.Model = (string)rdr["Model"];
+                        vk.Serienummer = (string)rdr["Serienummer"];
+                        vk.Farve = (string)rdr["Farve"];
+                        
+                    }
+                    if (!rdr.IsDBNull(12)) //Her er et værktøj 
+                    {
+                        toolcount++;
+                        Værktøj vt = new Værktøj();
+
+                        vt.VTID = (int)rdr["VærktøjsId"];
+                        vt.Anskaffet = (DateTime)rdr["VTAnskaffet"];
+                        vt.Fabrikat = (string)rdr["VTFabrikat"];
+                        vt.Værktøjskasse = (int)rdr["Værktøjskasse"];
+                        vt.Model = (string)rdr["VTModel"];
+                        vt.Seriennr = (string)rdr["Serienr"];
+                        vk.Værktøj_i_kassen.Add(vt);
+                    }
+                }
             }
         }
 

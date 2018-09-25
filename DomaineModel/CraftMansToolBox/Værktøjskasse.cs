@@ -37,7 +37,7 @@
             set;
         }
 
-        public virtual long VKID
+        public virtual int VKID
         {
             get;
             set;

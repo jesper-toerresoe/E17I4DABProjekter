@@ -14,7 +14,11 @@ namespace ApplicationLogic.TheCMTBContext
         public void TheApp()
         {
             CratftManDBUtil cmutil = new CratftManDBUtil();
+            Håndværker hv = new Håndværker() { HID = 1 };
+            cmutil.GetFullTreeHåndværkerDB(ref hv);
+            return;
             Håndværker nyhv = new Håndværker() { Ansættelsedato = DateTime.Now, Efternavn = "Hansen", Fagområde = "Snedker", Fornavn = "Peter" };
+           
             cmutil.AddHåndværkerDB(ref nyhv);
 
             Håndværker hv1 = new Håndværker() { Fornavn = "Peter", Efternavn = "Hansen" };

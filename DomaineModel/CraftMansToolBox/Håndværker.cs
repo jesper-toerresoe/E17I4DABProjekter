@@ -31,7 +31,7 @@
 			set;
 		}
 
-		public virtual long HID
+		public virtual int HID
 		{
 			get;
 			set;
