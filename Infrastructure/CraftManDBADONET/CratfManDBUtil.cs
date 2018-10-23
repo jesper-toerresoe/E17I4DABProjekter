@@ -34,8 +34,8 @@ namespace Infrastructure.CraftManDBADONET
         {
             get
             {
-                //var con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=CraftManDB;Integrated Security=True");
-                var con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=CraftManDB;User ID=Program;Password=Program123;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                var con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=CraftManDB;Integrated Security=True");
+                //var con = new SqlConnection(@"Data Source=st-i4dab.uni.au.dk;Initial Catalog=JRTE18HandIn2Deploy;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 con.Open();
                 return con;
             }
@@ -116,7 +116,10 @@ namespace Infrastructure.CraftManDBADONET
                     currentHåndværker.HID = (int)rdr["HåndværkerId"];
                     currentHåndværker.Ansættelsedato = (DateTime)rdr["Ansættelsedato"];
                     currentHåndværker.Efternavn = (string)rdr["Efternavn"];
-                    currentHåndværker.Fagområde = (string)rdr["Fagområde"];
+                    if (!rdr.IsDBNull(3))//NULL check required
+                        currentHåndværker.Fagområde = (string)rdr["Fagområde"];
+                    else
+                        currentHåndværker.Fagområde = "";
                     currentHåndværker.Fornavn = (string)rdr["Fornavn"];
                     hv = currentHåndværker;
                 }
@@ -154,7 +157,7 @@ namespace Infrastructure.CraftManDBADONET
 
         public List<Håndværker> GetHåndværkere()
         {
-            string sqlcmd = @"SELECT * FROM Håndværker";
+            string sqlcmd = @"SELECT HåndværkerId, Ansættelsedato, Efternavn, Fagområde, Fornavn FROM Håndværker";
             using (var cmd = new SqlCommand(sqlcmd, OpenConnection))
             {
                 SqlDataReader rdr = null;
@@ -163,13 +166,18 @@ namespace Infrastructure.CraftManDBADONET
                 Håndværker hv = null;
                 while (rdr.Read())
                 {
-                    hv = new Håndværker();
-                    hv.HID = (int)rdr["HåndværkerId"];
-                    hv.Ansættelsedato = (DateTime)rdr["Ansættelsedato"];
-                    hv.Efternavn = (string)rdr["Efternavn"];
-                    hv.Fagområde = (string)rdr["Fagområde"];
-                    hv.Fornavn = (string)rdr["Fornavn"];
-                    hver.Add(hv);
+                    hv = new Håndværker
+                    {
+                        HID = (int)rdr["HåndværkerId"],
+                        Ansættelsedato = (DateTime)rdr["Ansættelsedato"],
+                        Efternavn = (string)rdr["Efternavn"],
+                        Fornavn = (string)rdr["Fornavn"]
+                    };
+                    if (!rdr.IsDBNull(3))
+                        hv.Fagområde = (string)rdr["Fagområde"];
+                    else hv.Fagområde = "";
+                  
+                    hver.Add(hv); //Scaffolding struktur opsættes
                 }
                 return hver;
             }
@@ -180,7 +188,7 @@ namespace Infrastructure.CraftManDBADONET
         {
             string selectToolboxToolString = @"SELECT *
                                                   FROM [Værktøjskasse] 
-                                                  WHERE ([Håndværker] = @HVId)";
+                                                  WHERE ([HåndværkerID] = @HVId)";
             using (var cmd = new SqlCommand(selectToolboxToolString, OpenConnection))
             {
 
@@ -191,18 +199,22 @@ namespace Infrastructure.CraftManDBADONET
                 Værktøjskasse vk = null;
                 while (rdr.Read())
                 {
-                    vk = new Værktøjskasse(); // Ny instans i hver gennemløb!
-
-                    vk.VKID = (int)rdr["VKasseId"];
-                    vk.Anskaffet = (DateTime)rdr["Anskaffet"];
-                    vk.Fabrikat = (string)rdr["Fabrikat"];
-                    vk.Farve = (string)rdr["Farve"];
-                    vk.Håndværker = (int)rdr["Håndværker"];
-                    vk.Model = (string)rdr["Model"];
-                    vk.Serienummer = (string)rdr["Serienummer"];
-                    boxestohv.Add(vk);
+                    vk = new Værktøjskasse
+                    {
+                        VKID = (int)rdr["VKasseId"],
+                        Anskaffet = (DateTime)rdr["VTKAnskaffet"],
+                        Fabrikat = (string)rdr["VTKFabrikat"],
+                        Farve = (string)rdr["VTKFarve"],
+                        Håndværker = (int)rdr["HåndværkerID"],
+                        Model = (string)rdr["VTKModel"],
+                        Serienummer = (string)rdr["VTKSerienummer"],
+                        EjesAf = hv //Scaffolding struktur opsættes
+                    }; // Ny instans i hver gennemløb!
+                    boxestohv.Add(vk); //Scaffolding struktur opsættes               
                 }
                 return boxestohv;
+                //Alternativt i stedet for returnering kan dette statement udføres
+                // hv.Ejer_Værktøjskasser = boxestohv;
             }
         }
 
@@ -221,16 +233,18 @@ namespace Infrastructure.CraftManDBADONET
                 Værktøj vt = null;
                 while (rdr.Read())
                 {
-                    vt = new Værktøj(); // 
-
-                    vt.VTID = (int)rdr["VærktøjsId"];
-                    vt.Anskaffet = (DateTime)rdr["Anskaffet"];
-                    vt.Fabrikat = (string)rdr["Fabrikat"];
-                    vt.Værktøjskasse = (int)rdr["Værktøjskasse"];
-                    vt.Model = (string)rdr["Model"];
-                    vt.Seriennr = (string)rdr["Serienummer"];
-                    vt.Type = (string)rdr["Type"];
-                    vtinbox.Add(vt);
+                    vt = new Værktøj
+                    {
+                        VTID = (int)rdr["VærktøjsId"],
+                        Anskaffet = (DateTime)rdr["VTAnskaffet"],
+                        Fabrikat = (string)rdr["VTFabrikat"],
+                        Værktøjskasse = (int)rdr["VTKId"],
+                        Model = (string)rdr["VTModel"],
+                        Seriennr = (string)rdr["VTSerienummer"],
+                        Type = (string)rdr["VTType"],
+                        LiggerI = vtk //Scaffolding struktur opsættes
+                    }; // 
+                    vtinbox.Add(vt); //Scaffolding struktur opsættes
                 }
                 return vtinbox;
             }
@@ -240,7 +254,7 @@ namespace Infrastructure.CraftManDBADONET
         {
             // prepare command string using paramters in string and returning the given identity 
 
-            string insertStringParam = @"INSERT INTO [Værktøjskasse] (Anskaffet, Fabrikat,Håndværker,Farve, Model, Serienummer)
+            string insertStringParam = @"INSERT INTO [Værktøjskasse] (VTKAnskaffet, vtkFabrikat,HåndværkerID,VTKFarve, VTKModel, VTKSerienummer)
                                                     OUTPUT INSERTED.VKasseId
                                                     VALUES  (@Anskaffet, @Fabrikat,@Håndværker,@Farve,@Model,@Serienummer)";
 
@@ -268,12 +282,12 @@ namespace Infrastructure.CraftManDBADONET
                 {
                     //Værktøjskasse curvk = new Værktøjskasse();
                     vk.VKID = (int)rdr["VKasseID"];
-                    vk.Anskaffet = (DateTime)rdr["Anskaffet"];
-                    vk.Fabrikat = (string)rdr["Fabrikat"];
-                    vk.Håndværker = (long)rdr["Håndværker"];
-                    vk.Model = (string)rdr["Model"];
-                    vk.Serienummer = (string)rdr["Serienummer"];
-                    vk.Farve = (string)rdr["Farve"];
+                    vk.Anskaffet = (DateTime)rdr["VTKAnskaffet"];
+                    vk.Fabrikat = (string)rdr["vtkFabrikat"];
+                    vk.Håndværker = (long)rdr["HåndværkerID"];
+                    vk.Model = (string)rdr["VTKModel"];
+                    vk.Serienummer = (string)rdr["VTKSerienummer"];
+                    vk.Farve = (string)rdr["VTKFarve"];
                 }
             }
         }
@@ -282,8 +296,8 @@ namespace Infrastructure.CraftManDBADONET
             // prepare command string
             string updateString =
                @"UPDATE Værktøjskasse                 
-                        SET Anskaffet= @Anskaffet, Fabrikat = @Fabrikat, Farve =@Farve,
-                            Model = @Model, Serienummer = @Serienummer, Håndværker = @Håndværker 
+                        SET VTKAnskaffet= @Anskaffet, VTKFabrikat = @Fabrikat, VTKFarve =@Farve,
+                            VTKModel = @Model, VTKSerienummer = @Serienummer, HåndværkerID = @Håndværker 
                         WHERE VKasseId = @VKasseId";
 
             using (SqlCommand cmd = new SqlCommand(updateString, OpenConnection))
@@ -315,8 +329,8 @@ namespace Infrastructure.CraftManDBADONET
         {
             // prepare command string using paramters in string and returning the given identity 
 
-            string insertStringParam = @"INSERT INTO [Værktøj] (Anskaffet, Fabrikat, Model, Serienr,Type,Værktøjskasse)
-                                                    OUTPUT INSERTED.VærktøjsId
+            string insertStringParam = @"INSERT INTO [Værktøj] (VTAnskaffet, VTFabrikat, VTModel, VTSerienr,VTType,VTKId)
+                                                    OUTPUT INSERTED.VTKId
                                                     VALUES  (@Anskaffet, @Fabrikat,@Model,@Serienr,@Type,@Værktøjskasse)";
 
             using (SqlCommand cmd = new SqlCommand(insertStringParam, OpenConnection))
@@ -337,8 +351,8 @@ namespace Infrastructure.CraftManDBADONET
             // prepare command string
             string updateString =
                @"UPDATE Værktøj                 
-                        SET Anskaffet= @Anskaffet, Fabrikat = @Fabrikat, Model = @Model, 
-                            Serienummer = @Serienummer, Type = @Type, Værktøjskasse = @Værktøjskasse
+                        SET VTAnskaffet= @Anskaffet, VTFabrikat = @Fabrikat, VTModel = @Model, 
+                            VTSerienummer = @Serienummer, VTType = @Type, VTKId = @Værktøjskasse
                         WHERE VKasseId = @VKasseId";
 
             using (SqlCommand cmd = new SqlCommand(updateString, OpenConnection))
@@ -368,14 +382,20 @@ namespace Infrastructure.CraftManDBADONET
 
         public void GetFullTreeHåndværkerDB(ref Håndværker fhv)
         {
-            string getfulltreecraftman = @"SELECT  Håndværker.HåndværkerId, Håndværker.Ansættelsedato, Håndværker.Efternavn, Håndværker.Fagområde, Håndværker.Fornavn, Værktøjskasse.VKasseId, Værktøjskasse.Anskaffet, Værktøjskasse.Fabrikat, Værktøjskasse.Håndværker, 
-                Værktøjskasse.Model, Værktøjskasse.Serienummer, Værktøjskasse.Farve, Værktøj.VærktøjsId, Værktøj.Anskaffet AS VTAnskaffet, Værktøj.Fabrikat AS VTFabrikat, Værktøj.Model AS VTModel, Værktøj.Serienr, Værktøj.Type, 
-                Værktøj.Værktøjskasse
+            //string getfulltreecraftman = @"SELECT  Håndværker.HåndværkerId, Håndværker.Ansættelsedato, Håndværker.Efternavn, Håndværker.Fagområde, Håndværker.Fornavn, Værktøjskasse.VKasseId, Værktøjskasse.Anskaffet, Værktøjskasse.Fabrikat, Værktøjskasse.Håndværker, 
+            //    Værktøjskasse.Model, Værktøjskasse.Serienummer, Værktøjskasse.Farve, Værktøj.VærktøjsId, Værktøj.Anskaffet AS VTAnskaffet, Værktøj.Fabrikat AS VTFabrikat, Værktøj.Model AS VTModel, Værktøj.Serienr, Værktøj.Type, 
+            //    Værktøj.Værktøjskasse
+            //    FROM      Håndværker INNER JOIN
+            //    Værktøjskasse ON Håndværker.HåndværkerId = Værktøjskasse.Håndværker INNER JOIN
+            //    Værktøj ON Værktøjskasse.VKasseId = Værktøj.Værktøjskasse
+            //    WHERE   (Håndværker.HåndværkerId = @HåndværkerId)";
+            string getftrcmDB = @"SELECT Håndværker.HåndværkerId, Håndværker.Ansættelsedato, Håndværker.Efternavn, Håndværker.Fagområde, Håndværker.Fornavn, Værktøjskasse.VKasseId, Værktøjskasse.VTKAnskaffet, Værktøjskasse.VTKFabrikat, Værktøjskasse.VTKModel, 
+                Værktøjskasse.VTKSerienummer, Værktøjskasse.VTKFarve, Værktøj.VærktøjsId, Værktøj.VTAnskaffet, Værktøj.VTFabrikat, Værktøj.VTModel, Værktøj.VTSerienr, Værktøj.VTType, Værktøj.VTKId, Værktøjskasse.HåndværkerID
                 FROM      Håndværker INNER JOIN
-                Værktøjskasse ON Håndværker.HåndværkerId = Værktøjskasse.Håndværker INNER JOIN
-                Værktøj ON Værktøjskasse.VKasseId = Værktøj.Værktøjskasse
+                Værktøjskasse ON Håndværker.HåndværkerId = Værktøjskasse.HåndværkerID INNER JOIN
+                Værktøj ON Værktøjskasse.VKasseId = Værktøj.VTKId
                 WHERE   (Håndværker.HåndværkerId = @HåndværkerId)";
-            using (var cmd = new SqlCommand(getfulltreecraftman, OpenConnection))
+            using (var cmd = new SqlCommand(getftrcmDB, OpenConnection))
             {
                 cmd.Parameters.AddWithValue("@HåndværkerId", fhv.HID);
                 SqlDataReader rdr = null;
@@ -414,33 +434,38 @@ namespace Infrastructure.CraftManDBADONET
                             vk = new Værktøjskasse
                             {
                                 Værktøj_i_kassen = new List<Værktøj> { },
-                                VKID = vtid
+                                VKID = vtid,
+                                EjesAf = hv //Scaffolding struktur opsættes
                             };
-                            hv.Ejer_Værktøjskasser.Add(vk);
+                            hv.Ejer_Værktøjskasser.Add(vk);//Scaffolding struktur opsættes
                         }
                         tbid = vk.VKID;
-                        vk.Anskaffet = (DateTime)rdr["Anskaffet"];
-                        vk.Fabrikat = (string)rdr["Fabrikat"];
-                        vk.Håndværker = (int)rdr["Håndværker"];
-                        vk.Model = (string)rdr["Model"];
-                        vk.Serienummer = (string)rdr["Serienummer"];
-                        vk.Farve = (string)rdr["Farve"];
+                        vk.Anskaffet = (DateTime)rdr["VTKAnskaffet"];
+                        vk.Fabrikat = (string)rdr["VTKFabrikat"];
+                        vk.Håndværker = (int)rdr["HåndværkerId"];
+                        vk.Model = (string)rdr["VTKModel"];
+                        vk.Serienummer = (string)rdr["VTKSerienummer"];
+                        vk.Farve = (string)rdr["VTKFarve"];
                         
                     }
                     if (!rdr.IsDBNull(12)) //Her er et værktøj 
                     {
                         toolcount++;
-                        Værktøj vt = new Værktøj();
-
-                        vt.VTID = (int)rdr["VærktøjsId"];
-                        vt.Anskaffet = (DateTime)rdr["VTAnskaffet"];
-                        vt.Fabrikat = (string)rdr["VTFabrikat"];
-                        vt.Værktøjskasse = (int)rdr["Værktøjskasse"];
-                        vt.Model = (string)rdr["VTModel"];
-                        vt.Seriennr = (string)rdr["Serienr"];
-                        vk.Værktøj_i_kassen.Add(vt);
+                        Værktøj vt = new Værktøj
+                        {
+                            VTID = (long)rdr["VærktøjsId"],
+                            Anskaffet = (DateTime)rdr["VTAnskaffet"],
+                            Fabrikat = (string)rdr["VTFabrikat"],
+                            Værktøjskasse = (int)rdr["VTKId"],
+                            Model = (string)rdr["VTKModel"],
+                            Type = (string)rdr["VTType"],
+                            Seriennr = (string)rdr["VTSerienr"]
+                        };
+                        vk.Værktøj_i_kassen.Add(vt); //Scaffolding struktur opsættes
+                        vt.LiggerI = vk; //Scaffolding struktur opsættes
                     }
                 }
+                fhv = hv;//Opdatering af medsendte håndværker objekt
             }
         }
 

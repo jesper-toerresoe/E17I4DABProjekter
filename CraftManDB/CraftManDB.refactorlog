@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="fe52a6be-5cb9-4ffb-a79e-5769bd74433d" ChangeDateTime="10/08/2018 12:06:31">
+    <Property Name="ElementName" Value="[dbo].[Værktøj].[Værktøjskasse]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Værktøj]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VTKId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e1fe5d64-9732-4a5a-8bb6-9405fa72e5e2" ChangeDateTime="10/08/2018 14:20:31">
+    <Property Name="ElementName" Value="[dbo].[Værktøjskasse].[Anskaffet]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Værktøjskasse]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VTKAnskaffet" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="90482e4c-eae9-4abe-bea1-86389f3015f7" ChangeDateTime="10/08/2018 14:20:37">
+    <Property Name="ElementName" Value="[dbo].[Værktøjskasse].[Fabrikat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Værktøjskasse]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VTKFabrikat" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9c166e2f-e480-460c-bde6-3be49ef5eb72" ChangeDateTime="10/08/2018 14:20:43">
+    <Property Name="ElementName" Value="[dbo].[Værktøjskasse].[Model]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Værktøjskasse]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VTKModel" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="40ebe2d8-955f-41b8-af6c-c0335a8df8cf" ChangeDateTime="10/08/2018 14:20:49">
+    <Property Name="ElementName" Value="[dbo].[Værktøjskasse].[Serienummer]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Værktøjskasse]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VTKSerienummer" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f33771ac-a1f8-4ab0-b0e8-cc0c09465768" ChangeDateTime="10/08/2018 14:20:58">
+    <Property Name="ElementName" Value="[dbo].[Værktøjskasse].[Farve]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Værktøjskasse]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VTKFarve" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fc77a723-9c65-4bf8-9765-0a0737443f7c" ChangeDateTime="10/08/2018 14:21:56">
+    <Property Name="ElementName" Value="[dbo].[Værktøj].[Anskaffet]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Værktøj]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VTAnskaffet" />
+  </Operation>
+</Operations>

@@ -1,0 +1,18 @@
+﻿SET IDENTITY_INSERT [dbo].[Håndværker] ON
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (1, N'2018-04-11', N'Hansen', NULL, N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (2, N'2016-03-19', N'Sørensn', N'Smed', N'Søren')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (245, N'2018-04-11', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (366, N'2016-03-19', N'Sørensn', N'Smed', N'Søren')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (617, N'2018-04-11', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (798, N'2016-03-19', N'Sørensn', N'Smed', N'Søren')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (1002, N'2018-04-13', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (2511, N'2018-04-11', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (54377, N'2016-03-19', N'Sørensn', N'Smed', N'Søren')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (55377, N'2018-09-24', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (55378, N'2018-09-24', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (55379, N'2018-09-24', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (55380, N'2018-09-24', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (55381, N'2018-09-24', N'Tømrersen', N'Knastman', N'Flis')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (55382, N'2018-09-24', N'Hansen', N'Snedker', N'Peter')
+INSERT INTO [dbo].[Håndværker] ([HåndværkerId], [Ansættelsedato], [Efternavn], [Fagområde], [Fornavn]) VALUES (55383, N'2018-09-01', N'Jesper', N'Not og Feder Mand', N'Jespersen')
+SET IDENTITY_INSERT [dbo].[Håndværker] OFF

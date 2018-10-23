@@ -37,6 +37,7 @@
             set;
         }
 
+        public Håndværker EjesAf { get; set; }
         public virtual int VKID
         {
             get;

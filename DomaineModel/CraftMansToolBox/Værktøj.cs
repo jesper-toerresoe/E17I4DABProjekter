@@ -37,8 +37,9 @@
 			get;
 			set;
 		}
+        public Værktøjskasse LiggerI { get; set; }
 
-		public virtual string Type
+        public virtual string Type
 		{
 			get;
 			set;

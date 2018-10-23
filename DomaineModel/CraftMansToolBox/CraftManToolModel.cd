@@ -13,16 +13,22 @@
   <Class Name="DomaineModel.CraftMansToolBox.Værktøj">
     <Position X="7.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAQgYAAAAAAA=</HashCode>
+      <HashCode>AACAAAAAAAAAAAAAABAAEAAAAAAAAAAAAQgYAAAAAAA=</HashCode>
       <FileName>CraftMansToolBox\Værktøj.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LiggerI" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="DomaineModel.CraftMansToolBox.Værktøjskasse">
     <Position X="4.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAQAAAAAEAAAAAAAAAQAgYAAAAAiA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAIEAAAAAAAAAQAgYAAAAAiA=</HashCode>
       <FileName>CraftMansToolBox\Værktøjskasse.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="EjesAf" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Værktøj_i_kassen" />
     </ShowAsCollectionAssociation>

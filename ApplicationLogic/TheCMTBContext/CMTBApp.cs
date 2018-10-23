@@ -14,16 +14,19 @@ namespace ApplicationLogic.TheCMTBContext
         public void TheApp()
         {
             CratftManDBUtil cmutil = new CratftManDBUtil();
+
             Håndværker hv = new Håndværker() { HID = 1 };
+            var hvlist = cmutil.GetHåndværkere();
             cmutil.GetFullTreeHåndværkerDB(ref hv);
-            return;
+            var vtklist = cmutil.GetHåndværkers_Værktøjskasse(ref hv);
+
             Håndværker nyhv = new Håndværker() { Ansættelsedato = DateTime.Now, Efternavn = "Hansen", Fagområde = "Snedker", Fornavn = "Peter" };
-           
-            cmutil.AddHåndværkerDB(ref nyhv);
+
+            //cmutil.AddHåndværkerDB(ref nyhv);
 
             Håndværker hv1 = new Håndværker() { Fornavn = "Peter", Efternavn = "Hansen" };
             cmutil.GetHåndværkerByName(ref hv1);
-            cmutil.GetCurrentHåndværkerById(ref nyhv);
+            //cmutil.GetCurrentHåndværkerById(ref nyhv);
             Værktøjskasse vtk1 = new Værktøjskasse()
             {
                 Anskaffet = DateTime.Now,
@@ -31,11 +34,12 @@ namespace ApplicationLogic.TheCMTBContext
                 Model = "xxf6",
                 Serienummer = "3475693",
                 Håndværker = hv1.HID,
+                EjesAf =hv1, //Scaffolding struktur opsættes
                 Farve = "Grøn",
                 Værktøj_i_kassen = new List<Værktøj>()
             };
             hv1.Ejer_Værktøjskasser = new List<Værktøjskasse>();
-            hv1.Ejer_Værktøjskasser.Add(vtk1);
+            hv1.Ejer_Værktøjskasser.Add(vtk1);//Scaffolding struktur opsættes
             cmutil.AddVærktøjskasseDB(ref vtk1);
             Værktøj vt = new Værktøj()
             {
@@ -44,10 +48,11 @@ namespace ApplicationLogic.TheCMTBContext
                 Anskaffet = DateTime.Now,
                 Model = "Hammer",
                 Værktøjskasse = vtk1.VKID,
+                LiggerI = vtk1, //Scaffolding struktur opsættes
                 Type = "Lægtehammer"
             };
-            vtk1.Værktøj_i_kassen = new List<Værktøj>();
-            vtk1.Værktøj_i_kassen.Add(vt);
+            vtk1.Værktøj_i_kassen = new List<Værktøj>(); 
+            vtk1.Værktøj_i_kassen.Add(vt);//Scaffolding struktur opsættes
             cmutil.AddVærktøjDB(ref vt);
 
             nyhv.Ejer_Værktøjskasser=cmutil.GetHåndværkers_Værktøjskasse(ref hv1);

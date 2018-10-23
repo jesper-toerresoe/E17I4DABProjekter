@@ -1,12 +1,12 @@
 ﻿CREATE TABLE [dbo].[Værktøj] (
-    [VærktøjsId]    INT           IDENTITY (1, 1) NOT NULL,
-    [Anskaffet]     DATE          NOT NULL,
-    [Fabrikat]      NVARCHAR (50) NULL,
-    [Model]         NVARCHAR (50) NULL,
-    [Serienr]       NVARCHAR (50) NULL,
-    [Type]          NVARCHAR (50) NULL,
-    [Værktøjskasse] INT           NULL,
+    [VærktøjsId]    BIGINT           IDENTITY (1, 1) NOT NULL,
+    [VTAnskaffet]     DATE          NOT NULL,
+    [VTFabrikat]      NVARCHAR (MAX) NULL,
+    [VTModel]         NVARCHAR (50) NULL,
+    [VTSerienr]       NVARCHAR (50) NULL,
+    [VTType]          NVARCHAR (50) NULL,
+    [VTKId] INT           NULL,
     CONSTRAINT [PK_Værktøj] PRIMARY KEY CLUSTERED ([VærktøjsId] ASC),
-    CONSTRAINT [FK_Værktøj_Værktøjskasse] FOREIGN KEY ([Værktøjskasse]) REFERENCES [dbo].[Værktøjskasse] ([VKasseId])
+    CONSTRAINT [FK_Værktøj_Værktøjskasse] FOREIGN KEY ([VTKId]) REFERENCES [dbo].[Værktøjskasse] ([VKasseId])
 );
 
